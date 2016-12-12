@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2.11/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">   
+    <!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+<!-- 		<param name="ConversionPattern" value="%-5p [%c{1}] %m%n" /> -->
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} CR2020:EmailUtility:1.0 %c{1}:%L %M %-5p  - %m%n"/>
+		</layout>
+	</appender>	
+	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<!-- <param name="File" value="/idn/home/yodlees/cuso/logs/cuso_solr.log" /> -->
+		<param name="File" value="D:\\email_utility.log" />
+		<param name="datePattern" value="'.'yyyyMMdd" />
+		<layout class="org.apache.log4j.PatternLayout">
+<!-- 		<param name="ConversionPattern" value="[%-5p] %d %c - %m%n" /> -->
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} CR2020:EmailUtility:1.0 %c{1}:%L %M %-5p  - %m%n"/>
+		</layout>
+	</appender>
+	<!-- Third-party loggers -->
+	<logger name="org.springframework">
+		<level value="info" />
+	</logger>
+	<!-- Root logger -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="fileAppender" />
+		<appender-ref ref="console" />						
+	</root>
+</log4j:configuration>

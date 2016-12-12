@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:hdp="http://www.springframework.org/schema/hadoop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans.xsd
+	   		http://www.springframework.org/schema/tx 
+	   		http://www.springframework.org/schema/tx/spring-tx.xsd
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop.xsd		   
+			http://www.springframework.org/schema/util 
+			http://www.springframework.org/schema/util/spring-util.xsd
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc.xsd
+			http://www.springframework.org/schema/task 
+			http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/hadoop
+			http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+	<!-- <context:component-scan base-package="com.test" />
+
+	<task:annotation-driven scheduler="scheduler" />
+
+	<task:scheduler id="scheduler" pool-size="1" /> -->
+	
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.test" />
+
+	<mvc:annotation-driven />
+	<mvc:default-servlet-handler />
+	
+	<bean id="properties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="ignoreUnresolvablePlaceholders"
+			value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:config/MailConfig-${environment:local}.properties</value>
+			</list>
+		</property>
+		<property name="placeholderPrefix" value="$prop{" />
+		<property name="placeholderSuffix" value="}" />
+	</bean>
+	
+	<!-- Email Properties -->
+	
+	<bean id="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	  <property name="properties">
+	    <value>
+	        mail.transport.protocol=smtp
+	        mail.smtp.host=$prop{mail.smtp.host}
+	    </value>
+	  </property>
+	</bean>
+	
+	<!-- Initialize the email utility class. Any class sending mail makes use of this utility class -->
+	<bean id = "emailUtil" class = "com.test.mail.MailUtil">
+		<property name = "emailProperties" ref = "emailProperties" />
+	</bean>
+	
+	<!-- <bean id = "transactionDetailsMatching" class = "com.americanexpress.cr2020.yodlee.Bnamematching.TransactionDetailsMatching" 
+		init-method = "prepareData">
+		<property name = "rule2Description" value = "$prop{rule2.description.list}" />
+		<property name = "rule4Description" value = "$prop{rule4.description.list}" />
+		<property name = "rule4DescriptionWildCard" value = "$prop{rule4.description.wildcard.list}" />
+	</bean> -->
+	
+</beans>
